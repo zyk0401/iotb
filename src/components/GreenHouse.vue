@@ -1,23 +1,20 @@
 <template>
     <el-container>
-        <el-aside :style="'height:'+sideHeight+'px'" :width="sideWidth+'px'">
+        <el-aside :width="sideWidth+'px'">
             <el-menu :default-active="this.activeIndex" class="el-menu-vertical-demo"
                      @select="handleSelect"
             >
-                <el-menu-item index="real">
-                    <span slot="title">实时数据</span>
-<!--                    <el-menu-item index="general">课程体系</el-menu-item>-->
-<!--                    <el-menu-item index="famous">名师资源</el-menu-item>-->
-<!--                    <el-menu-item index="featured">特色课程</el-menu-item>-->
+                <el-menu-item index="real" class="history-menu">
+                    <span slot="title" class="weather-side-menu">实时数据</span>
                 </el-menu-item>
-                <el-submenu index="history">
-                    <template slot="title">历史数据</template>
-                    <el-menu-item index="soiltemp">土壤温度</el-menu-item>
-                    <el-menu-item index="soilhum">土壤湿度</el-menu-item>
-                    <el-menu-item index="soilPH">土壤PH值</el-menu-item>
-                    <el-menu-item index="soilN">土壤氮</el-menu-item>
-                    <el-menu-item index="soilP">土壤磷</el-menu-item>
-                    <el-menu-item index="soilK">土壤钾</el-menu-item>
+                <el-submenu index="history" class="history-menu">
+                    <template slot="title"><span class="weather-side-menu">历史数据</span></template>
+                    <el-menu-item index="soiltemp"><span class="history-menu-list">土壤温度</span></el-menu-item>
+                    <el-menu-item index="soilhum"><span class="history-menu-list">土壤湿度</span></el-menu-item>
+                    <el-menu-item index="soilPH"><span class="history-menu-list">土壤PH值</span></el-menu-item>
+                    <el-menu-item index="soilN"><span class="history-menu-list">土壤氮</span></el-menu-item>
+                    <el-menu-item index="soilP"><span class="history-menu-list">土壤磷</span></el-menu-item>
+                    <el-menu-item index="soilK"><span class="history-menu-list">土壤钾</span></el-menu-item>
                 </el-submenu>
 <!--                <el-menu-item index="history">-->
 <!--                    <span slot="title">历史数据</span>-->
@@ -39,6 +36,13 @@
                     <div id="n" class="panel"></div>
                     <div id="p" class="panel"></div>
                     <div id="k" class="panel"></div>
+                </div>
+                <div class="column"><span class="banquan1">版权所有：山东管理学院</span>
+                </div>
+                <div class="column">
+                    <span class="banquan2">
+                        Copyright www.sdmu.edu.cn All Rights Reserved
+                    </span>
                 </div>
 <!--                <div class="column">-->
 <!--                    <div id="soil" class="soil-panel"></div>-->
@@ -879,6 +883,7 @@
             switchbtn(value,type){
                 console.log(value,type)
             },
+            //获取实时数据
             getRealData(name,addr){
                 // console.log(name,addr)
                 this.$axios.get('/realdata',{
@@ -917,6 +922,7 @@
 
                 })
             },
+            //获取历史数据
             getHistoryData(name,addr){
                 this.$axios.get('/hstdef',{
                     params:{
@@ -943,6 +949,7 @@
 
                 })
             },
+            //查询历史数据
             searchHistoryData(){
                 console.log(this.timeValue,this.timeValue[0],this.timeValue[1])
                 this.$axios.get('/hstdef',{
@@ -996,5 +1003,24 @@
     .history{
         width: 1200px;
         height: 600px;
+    }
+    .weather-side-menu{
+        font-size: 25px;
+    }
+    .history-menu{
+        margin-top: 50px;
+    }
+    .history-menu-list{
+        font-size: 20px;
+    }
+    .banquan1{
+        display: block;
+        font-size: 18px;
+        margin: 50px auto 0;
+    }
+    .banquan2{
+        display: block;
+        font-size: 18px;
+        margin: 0 auto;
     }
 </style>

@@ -1,21 +1,21 @@
 <template>
     <el-container>
-        <el-aside :style="'height:'+sideHeight+'px'" :width="sideWidth+'px'">
+        <el-aside :width="sideWidth+'px'">
             <el-menu :default-active="this.activeIndex" class="el-menu-vertical-demo"
                      @select="handleSelect"
             >
-                <el-menu-item index="real">
-                    <span slot="title">实时数据</span>
+                <el-menu-item index="real" class="history-menu">
+                    <span slot="title" class="weather-side-menu">实时数据</span>
                 </el-menu-item>
-                <el-submenu index="history">
-                    <template slot="title">历史数据</template>
-                    <el-menu-item index="airtemp">空气温度</el-menu-item>
-                    <el-menu-item index="airhum">空气湿度</el-menu-item>
-                    <el-menu-item index="light">光照强度</el-menu-item>
-                    <el-menu-item index="CO2">二氧化碳</el-menu-item>
-                    <el-menu-item index="atmos">大气压</el-menu-item>
-                    <el-menu-item index="PM25">PM2.5</el-menu-item>
-                    <el-menu-item index="windspeed">风速</el-menu-item>
+                <el-submenu index="history" class="history-menu">
+                    <template slot="title"><span class="weather-side-menu" >历史数据</span></template>
+                    <el-menu-item index="airtemp"><span class="history-menu-list">空气温度</span></el-menu-item>
+                    <el-menu-item index="airhum"><span class="history-menu-list">空气湿度</span></el-menu-item>
+                    <el-menu-item index="light"><span class="history-menu-list">光照强度</span></el-menu-item>
+                    <el-menu-item index="CO2"><span class="history-menu-list">二氧化碳</span></el-menu-item>
+                    <el-menu-item index="atmos"><span class="history-menu-list">大气压</span></el-menu-item>
+                    <el-menu-item index="PM25"><span class="history-menu-list">PM2.5</span></el-menu-item>
+                    <el-menu-item index="windspeed"><span class="history-menu-list">风速</span></el-menu-item>
 <!--                    <el-menu-item index="winddirection">风向</el-menu-item>-->
                 </el-submenu>
             </el-menu>
@@ -26,16 +26,25 @@
                     <div id="temp" class="panel"></div>
                     <div id="humidity" class="panel"></div>
                     <div id="beam" class="panel"></div>
-                </div>
-                <div class="column">
                     <div id="co2" class="panel"></div>
-                    <div id="pm" class="panel"></div>
-                    <div id="atmos" class="panel"></div>
                 </div>
                 <div class="column">
                     <div id="rainfall" class="panel"></div>
-                    <div id="wind" class="wind-panel"></div>
+                    <div id="windspeed" class="panel"></div>
+                    <div id="pm" class="panel"></div>
+                    <div id="atmos" class="panel"></div>
                 </div>
+                <div class="column"><span class="banquan1">版权所有：山东管理学院</span>
+                </div>
+                <div class="column">
+                    <span class="banquan2">
+                        Copyright www.sdmu.edu.cn All Rights Reserved
+                    </span>
+                </div>
+<!--                <div class="column">-->
+<!--&lt;!&ndash;                    <div id="rainfall" class="panel"></div>&ndash;&gt;-->
+<!--                    <div id="wind" class="wind-panel"></div>-->
+<!--                </div>-->
             </div>
             <div v-show="activeIndex=='airtemp'||activeIndex=='airhum'||activeIndex=='light' ||activeIndex=='co2'
                         ||activeIndex=='atmos' ||activeIndex=='CO2' ||activeIndex=='PM25' || activeIndex=='rainfall'
@@ -134,7 +143,7 @@
         data(){
             return{
                 activeIndex:'real',
-                sideHeight : document.documentElement.clientHeight,
+                // sideHeight : document.documentElement.clientHeight,
                 sideWidth:200,
                 timeValue:'',
                 // wind :{
@@ -727,6 +736,66 @@
                         }]
                     }]
                 },
+                windspeed:{
+                    series: [{
+                        name: "当前风速",
+                        type: "gauge",
+                        min: 0,
+                        max: 100,
+                        axisLine: {
+                            lineStyle: {
+                                width: 30,
+                                color: [
+                                    [0.25, "#4dabf7"],
+                                    [0.5, "#69db7c"],
+                                    [0.75, "#ffa94d"],
+                                    [1, "#ff6b6b"]
+                                ]
+                            }
+                        },
+                        pointer: {
+                            itemStyle: {
+                                color: 'auto'
+                            }
+                        },
+                        axisTick: {
+                            distance: -30,
+                            length: 8,
+                            lineStyle: {
+                                color: '#fff',
+                                width: 2
+                            }
+                        },
+                        splitLine: {
+                            distance: -30,
+                            length: 30,
+                            lineStyle: {
+                                color: '#fff',
+                                width: 4
+                            }
+                        },
+                        axisLabel: {
+                            color: 'auto',
+                            distance: 40,
+                            fontSize: 15
+                        },
+                        title: {                // 仪表盘标题。
+                            show: true,             // 是否显示标题,默认 true。
+                            offsetCenter: [0,"100%"],//相对于仪表盘中心的偏移位置，数组第一项是水平方向的偏移，第二项是垂直方向的偏移。可以是绝对的数值，也可以是相对于仪表盘半径的百分比。// 文字的颜色,默认 #333。
+                            fontSize: 20,           // 文字的字体大小,默认 15。
+                        },
+                        detail: {
+                            valueAnimation: true,
+                            formatter: '{value} m/s',
+                            color: 'auto',
+                            fontSize:20
+                        },
+                        data: [{
+                            value: 0,
+                            name:'风速',
+                        }]
+                    }]
+                },
                 history: {
                     xAxis: {
                         type: 'category',
@@ -806,7 +875,7 @@
         },
         methods:{
             realinitEcharts(type) {
-                let wind = echarts.init(document.getElementById("wind"));
+                // let wind = echarts.init(document.getElementById("wind"));
                 let temp = echarts.init(document.getElementById("temp"));
                 let humidity = echarts.init(document.getElementById("humidity"));
                 let beam = echarts.init(document.getElementById("beam"));
@@ -814,12 +883,14 @@
                 let pm = echarts.init(document.getElementById("pm"));
                 let atmos = echarts.init(document.getElementById("atmos"));
                 let rainfall = echarts.init(document.getElementById("rainfall"));
+                let windspeed = echarts.init(document.getElementById("windspeed"));
+
                 // 基于准备好的dom，初始化echarts实例
                 // let echarts = require("echarts");
                 switch (type) {
-                    case 'wind':
-                        wind.setOption(this.wind);
-                        break;
+                    // case 'wind':
+                    //     wind.setOption(this.wind);
+                    //     break;
                     case 'airtemp':
                         temp.setOption(this.temp);
                         break;
@@ -841,8 +912,11 @@
                     case 'rainfall':
                         rainfall.setOption(this.rainfall);
                         break;
+                    case 'windspeed':
+                        windspeed.setOption(this.windspeed);
+                        break;
                     case 'all':
-                        wind.setOption(this.wind);
+                        // wind.setOption(this.wind);
                         temp.setOption(this.temp);
                         humidity.setOption(this.humidity);
                         beam.setOption(this.beam);
@@ -850,6 +924,7 @@
                         pm.setOption(this.pm);
                         atmos.setOption(this.atmos);
                         rainfall.setOption(this.rainfall);
+                        windspeed.setOption(this.windspeed);
                         break;
 
                 }
@@ -930,24 +1005,28 @@
                             this.rainfall.series[0].data[0].value=parseFloat(res.data.value)
                             this.rainfall.series[0].data[0].name = res.data.devAddr+'雨量'
                         }else if (res.data.name == 'windspeed'){
-                            Data.windsData.push(parseFloat(res.data.value))
-                            if (Data.windsData.length>10){
-                                Data.windsData.splice(0,1)
-                            }
-                            this.$nextTick(() => {
-                                this.realinitEcharts('wind');
-                            });
-                        }else if (res.data.name == 'winddirection'){
-                            Data.windTime.push(res.data.time)
-                            Data.windxData.push(res.data.value)
-                            if (Data.windxData.length>10){
-                                Data.windxData.splice(0,1)
-                                Data.windTime.splice(0,1)
-                            }
-                            this.$nextTick(() => {
-                                this.realinitEcharts('wind');
-                            });
+                            this.windspeed.series[0].data[0].value=parseFloat(res.data.value)
+                            this.windspeed.series[0].data[0].name = res.data.devAddr+'风速'
                         }
+                        // else if (res.data.name == 'windspeed'){
+                        //     Data.windsData.push(parseFloat(res.data.value))
+                        //     if (Data.windsData.length>10){
+                        //         Data.windsData.splice(0,1)
+                        //     }
+                        //     this.$nextTick(() => {
+                        //         this.realinitEcharts('wind');
+                        //     });
+                        // }else if (res.data.name == 'winddirection'){
+                        //     Data.windTime.push(res.data.time)
+                        //     Data.windxData.push(res.data.value)
+                        //     if (Data.windxData.length>10){
+                        //         Data.windxData.splice(0,1)
+                        //         Data.windTime.splice(0,1)
+                        //     }
+                        //     this.$nextTick(() => {
+                        //         this.realinitEcharts('wind');
+                        //     });
+                        // }
                         this.$nextTick(() => {
                             this.realinitEcharts(res.data.name);
                         });
@@ -1032,5 +1111,24 @@
     .history{
         width: 1200px;
         height: 600px;
+    }
+    .weather-side-menu{
+        font-size: 25px;
+    }
+    .history-menu{
+        margin-top: 50px;
+    }
+    .history-menu-list{
+        font-size: 20px;
+    }
+    .banquan1{
+        display: block;
+        font-size: 18px;
+        margin: 50px auto 0;
+    }
+    .banquan2{
+        display: block;
+        font-size: 18px;
+        margin: 0 auto;
     }
 </style>

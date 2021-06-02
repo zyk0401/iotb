@@ -7,10 +7,12 @@
             background-color="#409EFF"
             text-color="#fff"
             active-text-color="#ffd04b">
+        <h2 class="index-title">山管智慧生态校园欢迎您！</h2>
 <!--        <el-menu-item index="index">首页</el-menu-item>-->
-        <el-menu-item index="greenhouse">智慧农业</el-menu-item>
+        <div class="index-menu">
+        <el-menu-item index="greenhouse">智慧校园</el-menu-item>
         <el-menu-item index="weather">智慧气象</el-menu-item>
-
+        </div>
     </el-menu>
 </template>
 
@@ -48,9 +50,9 @@
 </script>
 
 <style scoped>
-    .nav{
-        padding-left: 20%;
-    }
+    /*.nav{*/
+    /*    padding-left: 20%;*/
+    /*}*/
     .link-format a{
         color: #EBEEF5;
     }
@@ -61,5 +63,25 @@
     .login-link .el-dropdown .el-dropdown-link .el-avatar--circle{
         position: absolute;
         top:-24px;
+    }
+    .index-title{
+        font-size: 30px;
+        float: left;
+        color: white;
+        margin-top: 30px;
+        margin-left: 40px;
+        color: #FFD04B;
+    }
+    .index-menu{
+        display: flex;
+        justify-content: space-between;
+        width: 800px;
+        margin: 25px auto 0 auto;
+    }
+    .el-menu-item{
+        font-size: 24px;
+    }
+    .el-menu-demo{
+        height: 100px;
     }
 </style>
